@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 DB_USER="sa"
-DB_NAME="dadaz"
+DB_NAME="myo"
 DB_HOST="bromo.liara.cloud"
 DB_PORT=31726
 DB_PASS="Lr0nm5zjaYwVTSgb6MKCJCWD"
