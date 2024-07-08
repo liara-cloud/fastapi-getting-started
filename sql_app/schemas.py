@@ -35,3 +35,6 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
+
+class UserWithItems(User):
+    items: List[Item] = []

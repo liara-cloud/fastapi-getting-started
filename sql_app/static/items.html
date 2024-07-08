@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Items</title>
+    <title>Items List</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <header>
-        <h1>Item List</h1>
+        <h1>Items List</h1>
+        <nav>
+            <a href="/add-user/">Add User</a>
+            <a href="/all-users/">Users List</a>
+            <a href="/add-item/">Add Item</a>
+            <a href="/items/">Items List</a>
+        </nav>
     </header>
     <main>
-        <table id="items-table">
+        <table>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -20,16 +26,17 @@
                     <th>Owner ID</th>
                 </tr>
             </thead>
-            <tbody id="items-tbody">
-                <!-- Item rows will be populated here by JavaScript -->
+            <tbody id="items-list">
+                <!-- Items will be dynamically inserted here -->
             </tbody>
         </table>
     </main>
     <script>
         async function fetchItems() {
-            const response = await fetch('/items');
+            const response = await fetch('/items/');
             const items = await response.json();
-            const tbody = document.getElementById('items-tbody');
+            const itemsList = document.getElementById('items-list');
+
             items.forEach(item => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -38,7 +45,7 @@
                     <td>${item.description}</td>
                     <td>${item.owner_id}</td>
                 `;
-                tbody.appendChild(row);
+                itemsList.appendChild(row);
             });
         }
 

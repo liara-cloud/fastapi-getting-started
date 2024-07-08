@@ -3,44 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Users</title>
+    <title>Users List</title>
     <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {background-color: #f5f5f5;}
+        .items-table {
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>User List</h1>
+        <h1>Users List</h1>
+        <nav>
+            <a href="/add-user/">Add User</a>
+            <a href="/all-users/">Users List</a>
+            <a href="/add-item/">Add Item</a>
+        </nav>
     </header>
     <main>
-        <table id="users-table">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody id="users-tbody">
-                <!-- User rows will be populated here by JavaScript -->
-            </tbody>
-        </table>
+        <div class="container">
+            <div id="users-list">
+                <!-- Users and their items will be dynamically inserted here -->
+            </div>
+        </div>
     </main>
     <script>
-        async function fetchUsers() {
-            const response = await fetch('/users');
+        async function fetchUsersAndItems() {
+            const response = await fetch('/users/');
             const users = await response.json();
-            const tbody = document.getElementById('users-tbody');
+            const usersList = document.getElementById('users-list');
+
             users.forEach(user => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${user.id}</td>
-                    <td>${user.name}</td>
-                    <td>${user.email}</td>
+                const userDiv = document.createElement('div');
+                userDiv.classList.add('user');
+
+                const userInfo = document.createElement('div');
+                userInfo.innerHTML = `
+                    <p>Email: ${user.email} - UserID: ${user.id}</p>
                 `;
-                tbody.appendChild(row);
+
+                const itemsTable = document.createElement('table');
+                itemsTable.classList.add('items-table');
+
+                const itemsTableHeader = document.createElement('thead');
+                itemsTableHeader.innerHTML = `
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                    </tr>
+                `;
+                itemsTable.appendChild(itemsTableHeader);
+
+                const itemsTableBody = document.createElement('tbody');
+                
+                if (user.items && user.items.length > 0) {
+                    user.items.forEach(item => {
+                        const itemRow = document.createElement('tr');
+                        itemRow.innerHTML = `
+                            <td>${item.title}</td>
+                            <td>${item.description}</td>
+                        `;
+                        itemsTableBody.appendChild(itemRow);
+                    });
+                } else {
+                    const noItemsRow = document.createElement('tr');
+                    noItemsRow.innerHTML = '<td colspan="2">No items available.</td>';
+                    itemsTableBody.appendChild(noItemsRow);
+                }
+
+                itemsTable.appendChild(itemsTableBody);
+                userDiv.appendChild(userInfo);
+                userDiv.appendChild(itemsTable);
+                usersList.appendChild(userDiv);
             });
         }
 
-        window.onload = fetchUsers;
+        window.onload = fetchUsersAndItems;
     </script>
 </body>
 </html>
