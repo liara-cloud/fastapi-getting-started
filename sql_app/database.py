@@ -1,11 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
+from dotenv import load_dotenv
+import os
 
-DB_USER="sa"
-DB_NAME="myj"
-DB_HOST="bromo.liara.cloud"
-DB_PORT=31726
-DB_PASS="Lr0nm5zjaYwVTSgb6MKCJCWD"
+load_dotenv()
+
+DB_USER=os.getenv("DB_USER")
+DB_NAME=os.getenv("DB_NAME")
+DB_HOST=os.getenv("DB_HOST")
+DB_PORT=os.getenv("DB_PORT")
+DB_PASS=os.getenv("DB_PASS")
 
 SQLALCHEMY_DATABASE_URL = (
     f"mssql+pyodbc://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}?driver=ODBC+Driver+17+for+SQL+Server"
