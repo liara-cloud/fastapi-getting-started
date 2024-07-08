@@ -51,7 +51,7 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
 
-@app.get("/all-users/", response_class=HTMLResponse)
+@app.get("/", response_class=HTMLResponse)
 async def users_page():
     with open("sql_app/static/users.html") as f:
         html_content = f.read()
