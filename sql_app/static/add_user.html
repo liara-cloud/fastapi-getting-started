@@ -34,7 +34,6 @@
     <script>
         document.getElementById('user-form').addEventListener('submit', async function(event) {
             event.preventDefault();
-            const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
@@ -43,7 +42,7 @@
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ full_name: name, email, password })
+                body: JSON.stringify({email, password })
             });
             
             const result = document.getElementById('result');
